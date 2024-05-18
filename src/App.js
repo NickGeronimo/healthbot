@@ -19,7 +19,7 @@ function App() {
         body: JSON.stringify({
           "model": "Meta-Llama-3-8B-Instruct",
           "messages": [
-            {"role": "user", "content": responding},
+            {"role": "user", "content": "speak as baymax from big hero 6."+ responding},
     ],
   })
 }).then((data) => {
@@ -30,24 +30,30 @@ function App() {
     }
 
     return (
-      <div className="App">
+
+    <main className="App">
+      <section>
+      <div id=""> 
+          {sentiment !== ""? 
+        <h3>Baymax Says: {sentiment}</h3>
+        :
+        null  
+        }
+        </div>
+      </section>
         <div>
           <textarea 
             onChange={(e) => setResponse(e.target.value)}
-            placeholder='ask question'
+            placeholder='Hello How Can I Help You Today'
             cols={50}
             rows={10}
           />
         </div>
         <div>
           <button onClick={callAwanAPI}> button</button>
-          {sentiment !== ""? 
-        <h3>This Is: {sentiment}</h3>
-        :
-        null  
-        }
-        </div>
-      </div>
+        </div> 
+
+      </main>
     );
     }
 
