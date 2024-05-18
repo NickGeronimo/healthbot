@@ -1,15 +1,14 @@
 import logo from './logo.svg';
 import React, { useState } from "react";
 import './App.css';
-
 const API_KEY = process.env.REACT_APP_API_KEY;
-console.log(process.env)
 
 function App() {
     const [responding, setResponse] = useState("");
-    const [sentiment, setSentiment] = useState("");
+    const [answer, setSentiment] = useState("");
 
     async function callAwanAPI(){
+      console.log("calling")
       await fetch("https://api.awanllm.com/v1/chat/completions", {
         method: "POST",
         headers: {
@@ -19,7 +18,7 @@ function App() {
         body: JSON.stringify({
           "model": "Meta-Llama-3-8B-Instruct",
           "messages": [
-            {"role": "user", "content": "speak as baymax from big hero 6."+ responding},
+            {"role": "user", "content": responding +"respond with less than 4 sentences"},
     ],
   })
 }).then((data) => {
@@ -29,30 +28,36 @@ function App() {
 });
     }
 
+  function Push(){
+    console.log(document.getElementById("response-container").innerHTML)
+    callAwanAPI()
+  }
+
     return (
 
     <main className="App">
       <section>
-      <div id=""> 
-          {sentiment !== ""? 
-        <h3>Baymax Says: {sentiment}</h3>
+      <div id="response-container"> 
+          {answer !== ""? 
+        <span>{answer}</span>
         :
         null  
         }
         </div>
       </section>
+      <section id="inputarea">
         <div>
-          <textarea 
+          <textarea
             onChange={(e) => setResponse(e.target.value)}
-            placeholder='Hello How Can I Help You Today'
-            cols={50}
-            rows={10}
+            placeholder='Hello How Can I Help You Today?'
           />
         </div>
         <div>
-          <button onClick={callAwanAPI}> button</button>
+          <button onClick={Push}> Submit</button>
         </div> 
-
+      </section>
+      <section id="previousAnswers">
+      </section>  
       </main>
     );
     }
